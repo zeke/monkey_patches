@@ -52,43 +52,89 @@ class String
       out.join(" ")
     end
   end
+  
+
+  def replace_wonky_characters_with_ascii
+    t = self.to_s
+    t.gsub!(/&#8211;/, '-')      # en-dash
+    t.gsub!(/&#8212;/, '--')     # em-dash
+    t.gsub!(/&#8230;/, '...')     # ellipsis    
+    t.gsub!(/&#8216;/, "'")      # open single quote
+    t.gsub!(/&#8217;/, "'")      # close single quote
+    t.gsub!(/&#8220;/, '"')      # open double quote
+    t.gsub!(/&#8221;/, '"')      # close double quote
+    
+    t.gsub!("\342\200\042", "-")    # en-dash
+    t.gsub!("\342\200\041", "--")   # em-dash
+    t.gsub!("\342\200\174", "...")  # ellipsis
+    t.gsub!("\342\200\176", "'")    # single quote
+    t.gsub!("\342\200\177", "'")    # single quote
+    t.gsub!("\342\200\230", "'")    # single quote
+    t.gsub!("\342\200\231", "'")    # single quote
+    t.gsub!("\342\200\234", "\"")   # Double quote, right
+    t.gsub!("\342\200\235", "\"")   # Double quote, left
+    t.gsub!("\342\200\242", ".")
+    t.gsub!("\342\202\254", "&euro;");   # Euro symbol
+    t.gsub!(/\S\200\S/, " ")             # every other strange character send to the moon
+    t.gsub!("\176", "\'")  # single quote
+    t.gsub!("\177", "\'")  # single quote
+    t.gsub!("\205", "-")		# ISO-Latin1 horizontal elipses (0x85)
+    t.gsub!("\221", "\'")	# ISO-Latin1 left single-quote
+    t.gsub!("\222", "\'")	# ISO-Latin1 right single-quote
+    t.gsub!("\223", "\"")	# ISO-Latin1 left double-quote
+    t.gsub!("\224", "\"")	# ISO-Latin1 right double-quote
+    t.gsub!("\225", "\*")	# ISO-Latin1 bullet
+    t.gsub!("\226", "-")		# ISO-Latin1 en-dash (0x96)
+    t.gsub!("\227", "-")		# ISO-Latin1 em-dash (0x97)
+    t.gsub!("\230", "\'")  # single quote
+    t.gsub!("\231", "\'")  # single quote
+    t.gsub!("\233", ">")		# ISO-Latin1 single right angle quote
+    t.gsub!("\234", "\"")  # Double quote
+    t.gsub!("\235", "\"")  # Double quote
+    t.gsub!("\240", " ")		# ISO-Latin1 nonbreaking space
+    t.gsub!("\246", "\|")	# ISO-Latin1 broken vertical bar
+    t.gsub!("\255", "")	  # ISO-Latin1 soft hyphen (0xAD)
+    t.gsub!("\264", "\'")	# ISO-Latin1 spacing acute
+    t.gsub!("\267", "\*")	# ISO-Latin1 middle dot (0xB7)
+    t    
+  end
 
   # Cleans up MS Word-style text, getting rid of things like em-dashes, smart quotes, etc..
-  def replace_wonky_characters
-    text = self.to_s
-    text.gsub!("\342\200\042", "&ndash;")   # en-dash
-    text.gsub!("\342\200\041", "&mdash;")   # em-dash
-    text.gsub!("\342\200\174", "&hellip;")  # elipse
-    text.gsub!("\342\200\176", "&lsquo;")   # single quote
-    text.gsub!("\342\200\177", "&rsquo;")   # single quote
-    text.gsub!("\342\200\230", "&rsquo;")   # single quote
-    text.gsub!("\342\200\231", "&rsquo;")   # single quote
-    text.gsub!("\342\200\234", "&ldquo;")   # Double quote, right
-    text.gsub!("\342\200\235", "&rdquo;")   # Double quote, left
-    text.gsub!("\342\200\242", ".")
-    text.gsub!("\342\202\254", "&euro;");   # Euro symbol
-    text.gsub!(/\S\200\S/, " ")             # every other strange character send to the moon
-    text.gsub!("\176", "\'")  # single quote
-    text.gsub!("\177", "\'")  # single quote
-    text.gsub!("\205", "-")		# ISO-Latin1 horizontal elipses (0x85)
-    text.gsub!("\221", "\'")	# ISO-Latin1 left single-quote
-    text.gsub!("\222", "\'")	# ISO-Latin1 right single-quote
-    text.gsub!("\223", "\"")	# ISO-Latin1 left double-quote
-    text.gsub!("\224", "\"")	# ISO-Latin1 right double-quote
-    text.gsub!("\225", "\*")	# ISO-Latin1 bullet
-    text.gsub!("\226", "-")		# ISO-Latin1 en-dash (0x96)
-    text.gsub!("\227", "-")		# ISO-Latin1 em-dash (0x97)
-    text.gsub!("\230", "\'")  # single quote
-    text.gsub!("\231", "\'")  # single quote
-    text.gsub!("\233", ">")		# ISO-Latin1 single right angle quote
-    text.gsub!("\234", "\"")  # Double quote
-    text.gsub!("\235", "\"")  # Double quote
-    text.gsub!("\240", " ")		# ISO-Latin1 nonbreaking space
-    text.gsub!("\246", "\|")	# ISO-Latin1 broken vertical bar
-    text.gsub!("\255", "")	  # ISO-Latin1 soft hyphen (0xAD)
-    text.gsub!("\264", "\'")	# ISO-Latin1 spacing acute
-    text.gsub!("\267", "\*")	# ISO-Latin1 middle dot (0xB7)
-    text
+  def replace_wonky_characters_with_entities
+    t = self.to_s
+    t.gsub!("\342\200\042", "&ndash;")   # en-dash
+    t.gsub!("\342\200\041", "&mdash;")   # em-dash
+    t.gsub!("\342\200\174", "&hellip;")  # ellipsis
+    t.gsub!("\342\200\176", "&lsquo;")   # single quote
+    t.gsub!("\342\200\177", "&rsquo;")   # single quote
+    t.gsub!("\342\200\230", "&rsquo;")   # single quote
+    t.gsub!("\342\200\231", "&rsquo;")   # single quote
+    t.gsub!("\342\200\234", "&ldquo;")   # Double quote, right
+    t.gsub!("\342\200\235", "&rdquo;")   # Double quote, left
+    t.gsub!("\342\200\242", ".")
+    t.gsub!("\342\202\254", "&euro;");   # Euro symbol
+    t.gsub!(/\S\200\S/, " ")             # every other strange character send to the moon
+    t.gsub!("\176", "\'")  # single quote
+    t.gsub!("\177", "\'")  # single quote
+    t.gsub!("\205", "-")		# ISO-Latin1 horizontal elipses (0x85)
+    t.gsub!("\221", "\'")	# ISO-Latin1 left single-quote
+    t.gsub!("\222", "\'")	# ISO-Latin1 right single-quote
+    t.gsub!("\223", "\"")	# ISO-Latin1 left double-quote
+    t.gsub!("\224", "\"")	# ISO-Latin1 right double-quote
+    t.gsub!("\225", "\*")	# ISO-Latin1 bullet
+    t.gsub!("\226", "-")		# ISO-Latin1 en-dash (0x96)
+    t.gsub!("\227", "-")		# ISO-Latin1 em-dash (0x97)
+    t.gsub!("\230", "\'")  # single quote
+    t.gsub!("\231", "\'")  # single quote
+    t.gsub!("\233", ">")		# ISO-Latin1 single right angle quote
+    t.gsub!("\234", "\"")  # Double quote
+    t.gsub!("\235", "\"")  # Double quote
+    t.gsub!("\240", " ")		# ISO-Latin1 nonbreaking space
+    t.gsub!("\246", "\|")	# ISO-Latin1 broken vertical bar
+    t.gsub!("\255", "")	  # ISO-Latin1 soft hyphen (0xAD)
+    t.gsub!("\264", "\'")	# ISO-Latin1 spacing acute
+    t.gsub!("\267", "\*")	# ISO-Latin1 middle dot (0xB7)
+    t
   end
   
   unless method_defined? "ends_with?"

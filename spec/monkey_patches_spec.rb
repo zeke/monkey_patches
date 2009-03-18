@@ -39,8 +39,10 @@ describe "MonkeyPatches" do
     "this has too many words".truncate_preserving_words(:max_words => 3).should == "this has too ..."
   end
 
-  it "takes out MS Word characters" do
-    "\“Ulysses\”".replace_wonky_characters.should == "&ldquo;Ulysses&rdquo;"
+  it "replaces wonky characters with ascii" do
+    "\“Ulysses\”".replace_wonky_characters_with_ascii.should == "\"Ulysses\""
+    "We ‘are’ single".replace_wonky_characters_with_ascii.should == "We 'are' single"
+    "We ‘are’ single".replace_wonky_characters_with_ascii.should == "We 'are' single"
   end
   
   # Array specs
