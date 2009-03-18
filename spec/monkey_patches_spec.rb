@@ -1,7 +1,57 @@
 require 'spec_helper'
 
 describe "MonkeyPatches" do
-  it "fails" do
-    fail "hey buddy, you should probably rename this file and start specing for real"
+  
+  it "ellipsizes" do
+    "short thing".ellipsize.should == "short thing"
+    "0123456789ABCDEFGHIJ".ellipsize(:max => 9).should == "0123...GHIJ"
+    "0123456789ABCDEFGHIJ".ellipsize(:max => 10, :delimiter => "|").should == "01234|FGHIJ"
   end
+
+  it "permalinkifies" do
+    "Dog Breath".permalinkify.should == "dog-breath"
+    "Shit for @@@ BRAINS!".permalinkify.should == "shit-for-brains"
+    " A REal Doozi\"e?  \' ".permalinkify.should == "a-real-doozie"
+  end
+
+  it "prepends http only if needed" do
+    "".add_http.should == ""
+    "dog".add_http.should == "http://dog"
+    "http://dog.com".add_http.should == "http://dog.com"
+    "https://dog.com".add_http.should == "https://dog.com"
+  end
+
+  it "removes http and www" do
+    "http://shitstorm.com".remove_http_and_www.should == "shitstorm.com"
+    "http://www.google.com".remove_http_and_www.should == "google.com"
+    "http://wwwxyz.com".remove_http_and_www.should == "wwwxyz.com"
+    "www.abc.com".remove_http_and_www.should == "abc.com"
+    "https://secure.com".remove_http_and_www.should == "secure.com"
+    "https://www.dubsecure.com".remove_http_and_www.should == "dubsecure.com"
+  end
+
+  it "truncates by words" do
+    #012345678901234567890123456789012345678901234567890123456789
+    "this is short. should be fine.".truncate_preserving_words.should == "this is short. should be fine."
+    "this is longer. will cut if we leave the default max_chars in place".truncate_preserving_words.should == "this is longer. will cut if we leave the default max_chars ..."
+    "this will get cut".truncate_preserving_words(:max_chars => 15, :end_string => "..").should == "this will get .."
+    "this doesn't have too many words".truncate_preserving_words(:max_words => 10).should == "this doesn't have too many words"
+    "this has too many words".truncate_preserving_words(:max_words => 3).should == "this has too ..."
+  end
+
+  it "takes out MS Word characters" do
+    "\“Ulysses\”".replace_wonky_characters.should == "&ldquo;Ulysses&rdquo;"
+  end
+  
+  # Array specs
+
+  it "removes first element" do
+    %w(1 2 3).remove_first_element.should == %w(2 3)
+  end
+
+  it "removes last element" do
+    %w(1 2 3).remove_last_element.should == %w(1 2)
+  end
+
+
 end

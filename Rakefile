@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "monkey_patches"
-    gem.summary = %Q{TODO}
+    gem.summary = "A handly collection of helper methods, primarily for String and Array"
     gem.email = "zeke@sikelianos.com"
     gem.homepage = "http://github.com/zeke/monkey_patches"
     gem.authors = ["Zeke Sikelianos"]

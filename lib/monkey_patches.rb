@@ -1,0 +1,108 @@
+class String
+
+  # Removes the middle from long strings, replacing with a placeholder
+  def ellipsize(options={})
+     max = options[:max] || 40
+     delimiter = options[:delimiter] || "..."
+     return self if self.size <= max
+     offset = max/2
+     self[0,offset] + delimiter + self[-offset,offset]
+  end
+  
+  # Generates a permalink-style string, with odd characters removed, etc.
+  def permalinkify
+    result = self.to_s
+    result.gsub!(/[^\x00-\x7F]+/, '') # Remove anything non-ASCII entirely (e.g. diacritics).
+    result.gsub!(/[^\w_ \-]+/i,   '') # Remove unwanted chars.
+    result.gsub!(/[ \-]+/i,      '-') # No more than one of the separator in a row.
+    result.gsub!(/^\-|\-$/i,      '') # Remove leading/trailing separator.
+    result.downcase!
+  end
+
+  # Prepends 'http://' to the beginning of non-empty strings that don't already have it.
+  def add_http
+    return "" if self.nil? || self.empty?
+    return "http://#{self}" unless self[0,4] == "http"
+    self
+  end
+  
+  # Removes presentationally superflous http and/or www text from the beginning of the string
+  def remove_http_and_www
+    return "" if self.nil? || self.empty?
+    return self.split(".").remove_first_element.join(".") if self.downcase[0,4] == "www."
+    self.gsub("http://www.", "").gsub("http://", "").gsub("https://www.", "").gsub("https://", "")
+  end
+  
+  # Shortens a string, preserving the last word. Truncation can be limited by words or characters
+  def truncate_preserving_words(options={})
+    end_string = options[:end_string] || "..."
+    max_words = options[:max_words] || nil
+    if max_words
+      words = self.split()
+      return self if words.size < max_words
+      words = words[0..(max_words-1)]
+      words << end_string
+      words.join(" ")
+    else
+      max_chars = options[:max_chars] || 60
+      return self if self.size < max_chars
+      out = self[0..(max_chars-1)].split(" ")
+      out.pop
+      out << end_string
+      out.join(" ")
+    end
+  end
+
+  # Cleans up MS Word-style text, getting rid of things like em-dashes, smart quotes, etc..
+  def replace_wonky_characters
+    text = self.to_s
+    text.gsub!("\342\200\042", "&ndash;")   # en-dash
+    text.gsub!("\342\200\041", "&mdash;")   # em-dash
+    text.gsub!("\342\200\174", "&hellip;")  # elipse
+    text.gsub!("\342\200\176", "&lsquo;")   # single quote
+    text.gsub!("\342\200\177", "&rsquo;")   # single quote
+    text.gsub!("\342\200\230", "&rsquo;")   # single quote
+    text.gsub!("\342\200\231", "&rsquo;")   # single quote
+    text.gsub!("\342\200\234", "&ldquo;")   # Double quote, right
+    text.gsub!("\342\200\235", "&rdquo;")   # Double quote, left
+    text.gsub!("\342\200\242", ".")
+    text.gsub!("\342\202\254", "&euro;");   # Euro symbol
+    text.gsub!(/\S\200\S/, " ")             # every strange character send to the moon
+    text.gsub!("\176", "\'")  # single quote
+    text.gsub!("\177", "\'")  # single quote
+    text.gsub!("\205", "-")		# ISO-Latin1 horizontal elipses (0x85)
+    text.gsub!("\221", "\'")	# ISO-Latin1 left single-quote
+    text.gsub!("\222", "\'")	# ISO-Latin1 right single-quote
+    text.gsub!("\223", "\"")	# ISO-Latin1 left double-quote
+    text.gsub!("\224", "\"")	# ISO-Latin1 right double-quote
+    text.gsub!("\225", "\*")	# ISO-Latin1 bullet
+    text.gsub!("\226", "-")		# ISO-Latin1 en-dash (0x96)
+    text.gsub!("\227", "-")		# ISO-Latin1 em-dash (0x97)
+    text.gsub!("\230", "\'")  # single quote
+    text.gsub!("\231", "\'")  # single quote
+    text.gsub!("\233", ">")		# ISO-Latin1 single right angle quote
+    text.gsub!("\234", "\"")  # Double quote
+    text.gsub!("\235", "\"")  # Double quote
+    text.gsub!("\240", " ")		# ISO-Latin1 nonbreaking space
+    text.gsub!("\246", "\|")	# ISO-Latin1 broken vertical bar
+    text.gsub!("\255", "")	  # ISO-Latin1 soft hyphen (0xAD)
+    text.gsub!("\264", "\'")	# ISO-Latin1 spacing acute
+    text.gsub!("\267", "\*")	# ISO-Latin1 middle dot (0xB7)
+    text
+  end
+  
+end
+
+class Array
+  
+  # Like Array.shift, but returns the array instead of removed the element.
+  def remove_first_element
+    self[1..self.size]
+  end
+
+  # Like Array.pop, but returns the array instead of removed the element.
+  def remove_last_element
+    self[0..self.size-2]
+  end
+  
+end
