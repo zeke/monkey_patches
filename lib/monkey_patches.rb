@@ -67,7 +67,7 @@ class String
     text.gsub!("\342\200\235", "&rdquo;")   # Double quote, left
     text.gsub!("\342\200\242", ".")
     text.gsub!("\342\202\254", "&euro;");   # Euro symbol
-    text.gsub!(/\S\200\S/, " ")             # every strange character send to the moon
+    text.gsub!(/\S\200\S/, " ")             # every other strange character send to the moon
     text.gsub!("\176", "\'")  # single quote
     text.gsub!("\177", "\'")  # single quote
     text.gsub!("\205", "-")		# ISO-Latin1 horizontal elipses (0x85)
