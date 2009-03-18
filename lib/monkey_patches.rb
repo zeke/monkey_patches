@@ -21,15 +21,15 @@ class String
 
   # Prepends 'http://' to the beginning of non-empty strings that don't already have it.
   def add_http
-    return "" if self.nil? || self.empty?
-    return "http://#{self}" unless self[0,4] == "http"
+    return "" if self.blank?
+    return "http://#{self}" unless self.starts_with?("http")
     self
   end
   
   # Removes presentationally superflous http and/or www text from the beginning of the string
   def remove_http_and_www
-    return "" if self.nil? || self.empty?
-    return self.split(".").remove_first_element.join(".") if self.downcase[0,4] == "www."
+    return "" if self.blank?
+    return self.split(".").remove_first_element.join(".") if self.starts_with?("www.")
     self.gsub("http://www.", "").gsub("http://", "").gsub("https://www.", "").gsub("https://", "")
   end
   
@@ -91,6 +91,22 @@ class String
     text
   end
   
+  unless method_defined? "ends_with?"
+    # Snagged from Rails: http://api.rubyonrails.org/classes/ActiveSupport/CoreExtensions/String/StartsEndsWith.html#M000441
+    def ends_with?(suffix)
+      suffix = suffix.to_s
+      self[-suffix.length, suffix.length] == suffix
+    end
+  end
+  
+  unless method_defined? "starts_with?"
+    # Snagged from Rails: http://api.rubyonrails.org/classes/ActiveSupport/CoreExtensions/String/StartsEndsWith.html#M000441
+    def starts_with?(prefix)
+      prefix = prefix.to_s
+      self[0, prefix.length] == prefix
+    end
+  end
+  
 end
 
 class Array
@@ -103,6 +119,17 @@ class Array
   # Like Array.pop, but returns the array instead of removed the element.
   def remove_last_element
     self[0..self.size-2]
+  end
+  
+end
+
+class Object
+  
+  unless method_defined? "blank?"
+    # Snagged from Rails: http://api.rubyonrails.org/classes/Object.html#M000265
+    def blank?
+      respond_to?(:empty?) ? empty? : !self
+    end
   end
   
 end
