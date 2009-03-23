@@ -52,7 +52,6 @@ class String
       out.join(" ")
     end
   end
-  
 
   def replace_wonky_characters_with_ascii
     t = self.to_s
