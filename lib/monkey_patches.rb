@@ -19,6 +19,16 @@ class String
     result.downcase!
   end
 
+  # Remove first instance of string
+  def nix(string)
+    self.sub(string, "")
+  end
+
+  # Remove all instances of string
+  def gnix(string)
+    self.gsub(string, "")
+  end
+
   # Prepends 'http://' to the beginning of non-empty strings that don't already have it.
   def add_http
     return "" if self.blank?

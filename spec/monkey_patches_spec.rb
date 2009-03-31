@@ -45,6 +45,15 @@ describe "MonkeyPatches" do
     "We ‘are’ single".replace_wonky_characters_with_ascii.should == "We 'are' single"
   end
   
+  it "nixes" do
+    "this thing that thing".nix("thing").should == "this  that thing"
+  end
+
+  it "nixes globally" do
+    "this thing that thing".gnix("thing").should == "this  that "
+  end
+
+  
   # Array specs
 
   it "removes first element" do
