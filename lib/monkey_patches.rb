@@ -16,7 +16,7 @@ class String
     result.gsub!(/[^\w_ \-]+/i,   '') # Remove unwanted chars.
     result.gsub!(/[ \-]+/i,      '-') # No more than one of the separator in a row.
     result.gsub!(/^\-|\-$/i,      '') # Remove leading/trailing separator.
-    result.downcase!
+    result.downcase
   end
 
   # Remove first instance of string

@@ -9,6 +9,7 @@ describe "MonkeyPatches" do
   end
 
   it "permalinkifies" do
+    "zeke".permalinkify.should == "zeke"
     "Dog Breath".permalinkify.should == "dog-breath"
     "Shit for @@@ BRAINS!".permalinkify.should == "shit-for-brains"
     " A REal Doozi\"e?  \' ".permalinkify.should == "a-real-doozie"
