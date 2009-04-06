@@ -1,5 +1,16 @@
 class String
 
+  # Pollute the space between every letter in a string,
+  # so it will be exempt from any impending string searches.
+  def pollute(delimiter = "^--^--^")
+    self.split('').map{|letter| "#{letter}#{delimiter}" }.join
+  end
+
+  # Meant to be paired with the pollute method, this removes 'pollution' from the string
+  def sanitize(delimiter = "^--^--^")
+    self.gsub(delimiter, "")
+  end
+
   # Removes the middle from long strings, replacing with a placeholder
   def ellipsize(options={})
      max = options[:max] || 40

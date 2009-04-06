@@ -53,7 +53,17 @@ describe "MonkeyPatches" do
   it "nixes globally" do
     "this thing that thing".gnix("thing").should == "this  that "
   end
-
+  
+  it "pollutes and sanitizes" do
+    s = "test"
+    s.pollute.should == "t^--^--^e^--^--^s^--^--^t^--^--^"
+    s.sanitize.should == s
+    s.pollute.sanitize.should == s
+    
+    s.pollute("-").should == "t-e-s-t-"
+    s.sanitize("-").should == s
+    s.pollute("-").sanitize("-").should == s
+  end
   
   # Array specs
 
