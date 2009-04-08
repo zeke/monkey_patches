@@ -198,4 +198,15 @@ class Object
     end
   end
   
+  # @person ? @person.name : nil
+  # vs
+  # @person.try(:name)
+  # Snagged from http://ozmm.org/posts/try.html; later incorporated into Rails 2.3
+  unless method_defined? "try"
+    def try(method)
+      send method if respond_to? method
+    end
+  end
+
+  
 end
