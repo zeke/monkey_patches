@@ -1,0 +1,18 @@
+h1. Monkey Patches
+
+This Rails gem extends String, Array, and Object.
+
+h1. Installation
+
+  gem sources -a http://gems.github.com
+  sudo gem install zeke-monkey_patches
+
+h2. String Methods
+
+See lib/monkey_patches.rb for information on all the methods.
+
+h2. TODO
+
+* They say it's bad to monkey patch.. Would taking the ActiveSupport approach to adding these methods be favorable in some way?
+
+Copyright (c) 2009 Zeke Sikelianos. See LICENSE for details.
