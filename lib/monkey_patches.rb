@@ -29,6 +29,11 @@ class String
     result.gsub!(/^\-|\-$/i,      '') # Remove leading/trailing separator.
     result.downcase
   end
+  
+  # Removes HTML tags from a string
+  def strip_tags
+    self.gsub(/<\/?[^>]*>/, "")
+  end
 
   # Remove first instance of string
   def nix(string)

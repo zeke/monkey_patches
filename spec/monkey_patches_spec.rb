@@ -46,6 +46,12 @@ describe "MonkeyPatches" do
     "We ‘are’ single".replace_wonky_characters_with_ascii.should == "We 'are' single"
   end
   
+  it "strips tags" do
+    "whoa".strip_tags.should == "whoa"
+    "<a href='http://shitstorm.com'>click</a>".strip_tags.should == "click"
+    "this is <b>bold</b> and <em>emphatic</em>".strip_tags.should == "this is bold and emphatic"
+  end
+  
   it "nixes" do
     "this thing that thing".nix("thing").should == "this  that thing"
   end
