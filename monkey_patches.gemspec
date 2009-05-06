@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{monkey_patches}
-  s.version = "0.1.10"
+  s.version = "0.1.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Zeke Sikelianos"]
-  s.date = %q{2009-04-22}
+  s.date = %q{2009-05-06}
   s.email = %q{zeke@sikelianos.com}
   s.extra_rdoc_files = ["README.textile", "LICENSE"]
   s.files = ["README.textile", "VERSION.yml", "lib/monkey_patches.rb", "spec/monkey_patches_spec.rb", "spec/spec_helper.rb", "LICENSE"]
