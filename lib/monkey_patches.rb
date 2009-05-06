@@ -1,3 +1,25 @@
+class Object
+  
+  unless method_defined? "blank?"
+    # Snagged from Rails: http://api.rubyonrails.org/classes/Object.html#M000265
+    def blank?
+      respond_to?(:empty?) ? empty? : !self
+    end
+  end
+  
+  # @person ? @person.name : nil
+  # vs
+  # @person.try(:name)
+  # Snagged from http://ozmm.org/posts/try.html; later incorporated into Rails 2.3
+  unless method_defined? "try"
+    def try(method)
+      send method if respond_to? method
+    end
+  end
+
+  
+end
+
 class String
 
   # Pollute the space between every letter in a string,
@@ -77,6 +99,19 @@ class String
       out << end_string
       out.join(" ")
     end
+  end
+  
+  def domain
+    url = self.dup
+    url=~(/^(?:\w+:\/\/)?([^\/?]+)(?:\/|\?|$)/) ? $1 : nil
+  end
+  
+  def domain_without_www
+    self.domain.remove_http_and_www
+  end
+  
+  def remove_whitespace
+    self.gnix("\t").split(" ").remove_blanks.join(" ")
   end
 
   def replace_wonky_characters_with_ascii
@@ -181,6 +216,10 @@ class String
 end
 
 class Array
+
+  def remove_blanks
+    self.reject{ |e| e.blank? }
+  end
   
   # Like Array.shift, but returns the array instead of removed the element.
   def remove_first_element
@@ -194,24 +233,3 @@ class Array
   
 end
 
-class Object
-  
-  unless method_defined? "blank?"
-    # Snagged from Rails: http://api.rubyonrails.org/classes/Object.html#M000265
-    def blank?
-      respond_to?(:empty?) ? empty? : !self
-    end
-  end
-  
-  # @person ? @person.name : nil
-  # vs
-  # @person.try(:name)
-  # Snagged from http://ozmm.org/posts/try.html; later incorporated into Rails 2.3
-  unless method_defined? "try"
-    def try(method)
-      send method if respond_to? method
-    end
-  end
-
-  
-end
