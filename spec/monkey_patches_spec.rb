@@ -71,7 +71,23 @@ describe "MonkeyPatches" do
     s.pollute("-").sanitize("-").should == s
   end
   
+  it "extracts domain from a string" do
+    "http://www.google.com".domain.should == "www.google.com"
+    "http://www.google.com".domain_without_www.should == "google.com"
+    "not a url".domain.should == "not a url"
+  end
+  
+  it "removes whitespace" do
+    "this is    a    test".remove_whitespace.should == "this is a test"
+    "  this \t is also a test  ".remove_whitespace.should == "this is also a test"
+  end
+  
   # Array specs
+  
+  it "removes blank elements from an array" do
+    "this    is   a  test".split(" ").remove_blanks.should == %w(this is a test)
+    ["this", "", "that", nil].remove_blanks.should == %w(this that)
+  end
 
   it "removes first element" do
     %w(1 2 3).remove_first_element.should == %w(2 3)
