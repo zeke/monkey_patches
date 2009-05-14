@@ -103,7 +103,7 @@ class String
   
   def domain
     url = self.dup
-    url=~(/^(?:\w+:\/\/)?([^\/?]+)(?:\/|\?|$)/) ? $1 : nil
+    url=~(/^(?:\w+:\/\/)?([^\/?]+)(?:\/|\?|$)/) ? $1 : url
   end
   
   def domain_without_www

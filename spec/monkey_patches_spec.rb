@@ -74,6 +74,7 @@ describe "MonkeyPatches" do
   it "extracts domain from a string" do
     "http://www.google.com".domain.should == "www.google.com"
     "http://www.google.com".domain_without_www.should == "google.com"
+    "".domain_without_www.should == ""
     "not a url".domain.should == "not a url"
   end
   
