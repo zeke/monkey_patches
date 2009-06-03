@@ -78,6 +78,13 @@ describe "MonkeyPatches" do
     "not a url".domain.should == "not a url"
   end
   
+  it "validates urls" do
+    "http://www.google.com".valid_url?.should == true
+    "https://bbc.co.uk/text/123/".valid_url?.should == true
+    "".valid_url?.should == false
+    "testsite.com".valid_url?.should == false
+  end
+  
   it "removes whitespace" do
     "this is    a    test".remove_whitespace.should == "this is a test"
     "  this \t is also a test  ".remove_whitespace.should == "this is also a test"

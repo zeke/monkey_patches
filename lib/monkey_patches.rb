@@ -57,12 +57,12 @@ class String
     self.gsub(/<\/?[^>]*>/, "")
   end
 
-  # Remove first instance of string
+  # Removes first instance of string
   def nix(string)
     self.sub(string, "")
   end
 
-  # Remove all instances of string
+  # Removes all instances of string
   def gnix(string)
     self.gsub(string, "")
   end
@@ -101,15 +101,23 @@ class String
     end
   end
   
+  # Extracts domain name from a URL
   def domain
     url = self.dup
     url=~(/^(?:\w+:\/\/)?([^\/?]+)(?:\/|\?|$)/) ? $1 : url
   end
   
+  # Extracts domain name (sans 'www.') from a URL string
   def domain_without_www
     self.domain.remove_http_and_www
   end
   
+  # Returns true or false depending on whether a string appears to be a URL
+  def valid_url?
+    !self.match(/https?:\/\/([^\/]+)(.*)/).nil?
+  end
+  
+  # Removes tab characters and instances of more than one space
   def remove_whitespace
     self.gnix("\t").split(" ").remove_blanks.join(" ")
   end
