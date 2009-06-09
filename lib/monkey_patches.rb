@@ -1,3 +1,25 @@
+module RFC822
+  EmailAddress = begin
+    qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]'
+    dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]'
+    atom_middle = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-' +
+      '\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+'
+    atom_edge = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c-\\x2e\\x3a-' +
+      '\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]'
+    atom = "(?:#{atom_edge}{1,2}|#{atom_edge}#{atom_middle}#{atom_edge})"
+    quoted_pair = '\\x5c[\\x00-\\x7f]'
+    domain_literal = "\\x5b(?:#{dtext}|#{quoted_pair})*\\x5d"
+    quoted_string = "\\x22(?:#{qtext}|#{quoted_pair})*\\x22"
+    domain_ref = atom
+    sub_domain = "(?:[a-zA-Z0-9][\-a-zA-Z0-9]*[a-zA-Z0-9]|[a-zA-Z0-9]+)"
+    word = "(?:#{atom}|#{quoted_string})"
+    domain = "#{sub_domain}(?:\\x2e#{sub_domain})*"
+    local_part = "#{word}(?:\\x2e#{word})*"
+    addr_spec = "#{local_part}\\x40#{domain}"
+    pattern = /\A#{addr_spec}\z/
+  end
+end
+
 class Object
   
   unless method_defined? "blank?"
@@ -16,7 +38,6 @@ class Object
       send method if respond_to? method
     end
   end
-
   
 end
 
@@ -115,6 +136,11 @@ class String
   # Returns true or false depending on whether a string appears to be a URL
   def valid_url?
     !self.match(/https?:\/\/([^\/]+)(.*)/).nil?
+  end
+  
+  # Returns true or false depending on whether a string appears to be an email address
+  def valid_email?
+    !self.match(/^[A-Z0-9._%-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|biz|info|name|aero|biz|info|jobs|museum|name)$/i).nil?
   end
   
   # Removes tab characters and instances of more than one space
@@ -240,4 +266,3 @@ class Array
   end
   
 end
-

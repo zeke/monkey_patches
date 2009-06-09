@@ -85,6 +85,11 @@ describe "MonkeyPatches" do
     "testsite.com".valid_url?.should == false
   end
   
+  it "validates emails" do
+    ["bob.the.boss@moma.museum", "123@big.domain.madness.info", "test@foo.com"].all?{|e| e.valid_email? }.should == true
+    ["test@foo", "text", ""].any?{|e| e.valid_email? }.should == false
+  end
+  
   it "removes whitespace" do
     "this is    a    test".remove_whitespace.should == "this is a test"
     "  this \t is also a test  ".remove_whitespace.should == "this is also a test"
