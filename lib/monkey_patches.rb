@@ -152,6 +152,12 @@ class String
   def upcase?
     self.upcase == self
   end
+
+  # Returns true if all letters in the string are lowercase
+  def downcase?
+    self.downcase == self
+  end
+
   
   def replace_wonky_characters_with_ascii
     t = self.to_s

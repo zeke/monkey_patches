@@ -95,10 +95,16 @@ describe "MonkeyPatches" do
     "  this \t is also a test  ".remove_whitespace.should == "this is also a test"
   end
   
-  it "determines capitalization" do
+  it "determines whether string is capitalized" do
     "This is mixed case".upcase?.should == false
     "ALL CAPS DUDE".upcase?.should == true
     "ALL-CAPS, WITH! EXTRA.. CHARS & STUFF/SYMBOLS?".upcase?.should == true
+  end
+
+  it "determines whether string is lowercase" do
+    "This is mixed case".downcase?.should == false
+    "all lowers dude".downcase?.should == true
+    "all-caps, with! extra.. chars & stuff/symbols?".downcase?.should == true
   end
   
   # Array specs
