@@ -147,7 +147,12 @@ class String
   def remove_whitespace
     self.gnix("\t").split(" ").remove_blanks.join(" ")
   end
-
+  
+  # Returns true if all letters in the string are capitalized
+  def upcase?
+    self.upcase == self
+  end
+  
   def replace_wonky_characters_with_ascii
     t = self.to_s
     t.gsub!(/&#8211;/, '-')      # en-dash
