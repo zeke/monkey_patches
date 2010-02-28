@@ -85,9 +85,26 @@ describe "MonkeyPatches" do
     "testsite.com".valid_url?.should == false
   end
   
+  it "validates emails" do
+    ["bob.the.boss@moma.museum", "123@big.domain.madness.info", "test@foo.com"].all?{|e| e.valid_email? }.should == true
+    ["test@foo", "text", ""].any?{|e| e.valid_email? }.should == false
+  end
+  
   it "removes whitespace" do
     "this is    a    test".remove_whitespace.should == "this is a test"
     "  this \t is also a test  ".remove_whitespace.should == "this is also a test"
+  end
+  
+  it "determines whether string is capitalized" do
+    "This is mixed case".upcase?.should == false
+    "ALL CAPS DUDE".upcase?.should == true
+    "ALL-CAPS, WITH! EXTRA.. CHARS & STUFF/SYMBOLS?".upcase?.should == true
+  end
+
+  it "determines whether string is lowercase" do
+    "This is mixed case".downcase?.should == false
+    "all lowers dude".downcase?.should == true
+    "all-caps, with! extra.. chars & stuff/symbols?".downcase?.should == true
   end
   
   # Array specs
