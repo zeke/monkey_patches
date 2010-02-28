@@ -17,6 +17,9 @@ class Object
     end
   end
 
+  def is_numeric?
+    !self.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/).nil?
+  end
   
 end
 
@@ -240,4 +243,3 @@ class Array
   end
   
 end
-

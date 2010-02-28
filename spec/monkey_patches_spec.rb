@@ -104,6 +104,19 @@ describe "MonkeyPatches" do
   it "removes last element" do
     %w(1 2 3).remove_last_element.should == %w(1 2)
   end
-
+  
+  # Object specs
+  
+  it "determines whether an object's to_s value is numeric" do
+    5.is_numeric?.should == true
+    0.is_numeric?.should == true
+    "+256.375".is_numeric?.should == true
+    "-37.3".is_numeric?.should == true
+    -37.3.is_numeric?.should == true
+    51.45.is_numeric?.should == true
+    "2.3.3".is_numeric?.should == false
+    "x".is_numeric?.should == false
+    "foo".is_numeric?.should == false
+  end
 
 end
